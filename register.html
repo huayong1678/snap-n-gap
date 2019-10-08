@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="stylesheet.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Athiti|Chonburi&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Join | Snap 'n Gap</title>
+</head>
+
+<body>
+
+  <!-- Validate Messages -->
+  <p v-if="errors.length">
+    <b>Please correct the following error(s):</b>
+    <ul>
+      <li v-for="error in errors"></li>
+    </ul>
+  </p>
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="logo.png" width="30" height="auto" class="d-inline-block align-top" alt="">
+        Snap n' Gap
+      </a>
+      <a href="index.html" class="btn btn-outline-dark d-none d-md-block my-2 my-sm-0" type="link">กลับหน้าหลัก</a
+        href="register.html">
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row align-content-center">
+      <div class="offset-md-7 offset-lg-6 col-12 col-md-5 col-lg-6" id="content">
+        <h1 id="regist-head" class="text-center">ลงทะเบียนกิจกรรมสแน็ปแอนด์แก็ปโฟโต้วอร์ค ครั้งที่ 1</h1>
+        <p v-if="errors.length">
+          <b>Please correct the following error(s):</b>
+          <ul>
+            <li v-for="error in errors">{{ error }}</li>
+          </ul>
+        </p>
+        <div id="form-app" @submit="checkForm">
+          <div class="form-row">
+            <div class="col-12 col-md-6">
+              <p><label for="fName">ชื่อ</label>
+                <input v-model="form.firstname" type="text" class="form-control" placeholder="สแนป" id="fName"></p>
+            </div>
+            <div class="col-12 col-md-6">
+              <p><label for="lName">นามสกุล</label>
+                <input v-model="form.lastname" type="text" class="form-control" placeholder="แก็ป" id="lName"></p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-12 col-md-5">
+              <p><label for="nName">ชื่อเล่น</label>
+                <input v-model="form.nickname" type="text" class="form-control" placeholder="ก็อปแก็ป" id="nName"></p>
+            </div>
+            <div class="col-12 col-md-7">
+              <p><label for="phoneNum">เบอร์มือถือ</label>
+                <input v-model="form.phone" type="text" class="form-control" placeholder="0619144XXX" id="phoneNum"></p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <p><label for="FacebookURL">Facebook URL</label>
+                <input v-model="form.facebook" type="text" class="form-control"
+                  placeholder="https://www.facebook.com/snapandgap" id="FacebookURL"></p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-12 col-md-6">
+              <p><label for="LineID">Line ID</label>
+                <input v-model="form.line" type="text" class="form-control" placeholder="snapandgap" id="LineID"></p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <p><label for="devices">อุปกรณ์ที่ใช้ถ่ายภาพ (เลือกได้มากกว่า 1 อย่าง)</label>
+                <div class="form-check-inline">
+                  <input v-model="form.devices.dslr" class="form-check-input" type="checkbox" name="device" id="DSLR"
+                    value="option1">
+                  <label class="form-check-label" for="DSLR">
+                    กล้องDSLR / กล้องโปร
+                  </label>
+                </div>
+                <div class="form-check-inline">
+                  <input v-model="form.devices.phone" class="form-check-input" type="checkbox" name="device"
+                    id="mobilePhone" value="option2">
+                  <label class="form-check-label" for="mobilePhone">
+                    กล้องโทรศัพท์มือถือ
+                  </label>
+                </div>
+                <div class="form-check-inline">
+                  <input v-model="form.devices.film" class="form-check-input" type="checkbox" name="device" id="film"
+                    value="option3">
+                  <label class="form-check-label" for="film">
+                    กล้องฟิล์ม
+                  </label>
+                </div>
+                <div class="form-check-inline">
+                  <input v-model="form.devices.other" class="form-check-input" type="checkbox" name="device" id="other"
+                    value="option4">
+                  <label class="form-check-label" for="other">อื่นๆ</label>
+                </div>
+            </div>
+          </div>
+          <hr>
+          <div class="form-row">
+            <div class="col-12">
+              <p><label for="reason">ขอเหตุผลน่ารักๆว่าทำไมถึงมาร่วมกิจกรรม</label>
+                <textarea v-model="form.reason" class="form-control" placeholder="เพราะคนจัดงานหล่อมากๆ" id="reason"
+                  row="3"></textarea></p>
+            </div>
+          </div>
+          <div class="btn-row">
+            <div class="col"></div>
+            <button class="btn w-100 btn-outline-light my-2 my-sm-0" type="submit">ยืนยัน!</button>
+            <div class="col"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script>
+
+  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+  <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-analytics.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-firestore.js"></script>
+
+</body>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCzsUn4TCWlwKeSuXhf0uCI5w2jiBhKPsc",
+    authDomain: "snap-n-gap.firebaseapp.com",
+    databaseURL: "https://snap-n-gap.firebaseio.com",
+    projectId: "snap-n-gap",
+    storageBucket: "snap-n-gap.appspot.com",
+    messagingSenderId: "1069369490873",
+    appId: "1:1069369490873:web:39d38f339ff27076a14a68",
+    measurementId: "G-RN0BJH55HD"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  var db = firebase.firestore();
+
+  var app = new Vue({
+    el: '#form-app',
+    data: {
+      form: {
+        errors: [],
+        firstname: '',
+        lastname: '',
+        nickname: '',
+        phone: '',
+        facebook: '',
+        line: '',
+        devices: {
+          dslr: false,
+          phone: false,
+          film: false,
+          other: false
+        },
+        reason: '',
+      }
+    },
+    methods: {
+      saveForm() {
+        db.collection('applicants').add(this.form).then(function () {
+          window.location.href = '/success.html';
+        })
+      },
+      checkForm: function (e) {
+        if (this.name && this.age) {
+          saveForm();
+          return true;
+        }
+
+        if (!this.firstname) {
+          this.errors.push('Firstname required.');
+        }
+        if (!this.lastname) {
+          this.errors.push('Lastname required.');
+        }
+
+        e.preventDefault();
+      }
+    }
+  });
+  // ปวดหัวโว้ยยยยยย
+</script>
