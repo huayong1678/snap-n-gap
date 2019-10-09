@@ -17,16 +17,6 @@
 </head>
 
 <body>
-
-  <!-- Validate Messages -->
-  <p v-if="errors.length">
-    <b>Please correct the following error(s):</b>
-    <ul>
-      <li v-for="error in errors"></li>
-    </ul>
-  </p>
-
-
   <nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -37,17 +27,11 @@
         href="register.html">
     </div>
   </nav>
-  <div class="container">
+  <div class="container full-width" id="box">
     <div class="row align-content-center">
-      <div class="offset-md-7 offset-lg-6 col-12 col-md-5 col-lg-6" id="content">
+      <div class="offset-lg-6 col-12 col-lg-6" id="content">
         <h1 id="regist-head" class="text-center">ลงทะเบียนกิจกรรมสแน็ปแอนด์แก็ปโฟโต้วอร์ค ครั้งที่ 1</h1>
-        <p v-if="errors.length">
-          <b>Please correct the following error(s):</b>
-          <ul>
-            <li v-for="error in errors">{{ error }}</li>
-          </ul>
-        </p>
-        <div id="form-app" @submit="checkForm">
+        <div id="form-app">
           <div class="form-row">
             <div class="col-12 col-md-6">
               <p><label for="fName">ชื่อ</label>
@@ -121,9 +105,7 @@
             </div>
           </div>
           <div class="btn-row">
-            <div class="col"></div>
-            <button class="btn w-100 btn-outline-light my-2 my-sm-0" type="submit">ยืนยัน!</button>
-            <div class="col"></div>
+            <button @click="saveForm" class="btn w-100 py-3 btn-outline-light my-2 my-sm-0" type="submit">ยืนยัน!</button>
           </div>
 
         </div>
@@ -163,8 +145,8 @@
   var app = new Vue({
     el: '#form-app',
     data: {
+      error: false,
       form: {
-        errors: [],
         firstname: '',
         lastname: '',
         nickname: '',
@@ -182,24 +164,19 @@
     },
     methods: {
       saveForm() {
-        db.collection('applicants').add(this.form).then(function () {
-          window.location.href = '/success.html';
-        })
-      },
-      checkForm: function (e) {
-        if (this.name && this.age) {
-          saveForm();
-          return true;
+        if (
+          this.form.firstname !== '' &&
+          this.form.lastname !== '' &&
+          this.form.nickname !== '' &&
+          this.form.phone.length == 10
+        ) {
+          db.collection('applicants').add(this.form).then(function () {
+            window.location.href = '/public/success.html';
+          })
+        } else {
+          this.error = true;
+          alert('กรอกข้อมูลให้ครบนะครับ ❤️')
         }
-
-        if (!this.firstname) {
-          this.errors.push('Firstname required.');
-        }
-        if (!this.lastname) {
-          this.errors.push('Lastname required.');
-        }
-
-        e.preventDefault();
       }
     }
   });
