@@ -146,16 +146,16 @@
             <div class="col-12">
               <div class="row justify-content-center">
                 <div class="col-12 col-md-6 mb-3">
-                  <button @click="handleDeviceClick('dslr')" :class="['w-100 btn btn-outline-light', {'active': form.devices.dslr}]">DSRL</button>
+                  <button @click="handleDeviceClick('dslr')" :class="['w-100 btn', {'btn-outline-light': !form.devices.dslr}, {'active btn-outline-success': form.devices.dslr}]">DSRL</button>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
-                  <button class="w-100 btn btn-outline-light">Mobile Phone</button>
+                  <button @click="handleDeviceClick('phone')" :class="['w-100 btn', {'btn-outline-light': !form.devices.phone}, {'active btn-outline-success': form.devices.phone}]">Mobile Phone</button>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
-                  <button class="w-100 btn btn-outline-light">Film</button>
+                  <button @click="handleDeviceClick('film')" :class="['w-100 btn', {'btn-outline-light': !form.devices.film}, {'active btn-outline-success': form.devices.film}]">Film</button>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
-                  <button class="w-100 btn btn-outline-light">Other</button>
+                  <button @click="handleDeviceClick('other')" :class="['w-100 btn', {'btn-outline-light': !form.devices.other}, {'active btn-outline-success': form.devices.other}]">Other</button>
                 </div>
               </div>
             </div>
@@ -164,7 +164,7 @@
           <div class="form-row">
             <div class="col-12">
                 <label class="text-white" for="reason">ขอเหตุผลน่ารักๆว่าทำไมถึงมาร่วมกิจกรรม</label>
-                <textarea v-model="form.reason" class="form-control" placeholder="เพราะคนจัดงานหล่อมากๆ" id="reason"
+                <textarea v-model="form.reason" class="form-control mb-3" placeholder="เพราะคนจัดงานหล่อมากๆ" id="reason"
                   row="3"></textarea>
             </div>
           </div>
@@ -239,19 +239,9 @@
         this.form.devices[device] = !this.form.devices[device]
       },
       saveForm() {
-        if (
-          this.form.firstname !== '' &&
-          this.form.lastname !== '' &&
-          this.form.nickname !== '' &&
-          this.form.phone.length == 10
-        ) {
           db.collection('applicants').add(this.form).then(function () {
             window.location.href = '/success.html';
           })
-        } else {
-          this.error = true;
-          alert('กรอกข้อมูลให้ครบนะครับ ❤️');
-        }
       }
     },
     computed: {
