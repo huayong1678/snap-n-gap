@@ -145,23 +145,17 @@
             </div>
             <div class="col-12">
               <div class="row justify-content-center">
-                <div class="col-auto mb-3">
-                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
+                <div class="col-12 col-md-6 mb-3">
+                  <button @click="handleDeviceClick('dslr')" :class="['w-100 btn btn-outline-light', {'active': form.devices.dslr}]">DSRL</button>
                 </div>
-                <div class="col-auto mb-3">
-                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
+                <div class="col-12 col-md-6 mb-3">
+                  <button class="w-100 btn btn-outline-light">Mobile Phone</button>
                 </div>
-                <div class="col-auto mb-3">
-                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
+                <div class="col-12 col-md-6 mb-3">
+                  <button class="w-100 btn btn-outline-light">Film</button>
                 </div>
-                <div class="col-auto mb-3">
-                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
-                </div>
-                <div class="col-auto mb-3">
-                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
-                </div>
-                <div class="col-auto mb-3">
-                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
+                <div class="col-12 col-md-6 mb-3">
+                  <button class="w-100 btn btn-outline-light">Other</button>
                 </div>
               </div>
             </div>
@@ -241,6 +235,9 @@
       }
     },
     methods: {
+      handleDeviceClick (device) {
+        this.form.devices[device] = !this.form.devices[device]
+      },
       saveForm() {
         if (
           this.form.firstname !== '' &&
