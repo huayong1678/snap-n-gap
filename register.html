@@ -51,36 +51,72 @@
             </div>
             <div class="col-12 col-md-6">
                 <label class="text-white" for="lName">นามสกุล</label>
-                <input v-model="form.lastname" type="text" class="form-control" placeholder="แก็ป" id="lName">
+                <input
+                @blur="isTouched.lastname = true" 
+                v-model="form.lastname" type="text" 
+                :class="['form-control', {'mb-3': isLastNameValid || !isTouched.lastname}]" 
+                placeholder="แก็ป" 
+                id="lName">
+
+                <small 
+                v-if="!isLastNameValid && isTouched.lastname" 
+                class="text-warning mb-3 d-inline-block">กรุณากรอกนามสกุลด้วยครับ</small>
+
             </div>
           </div>
           <div class="form-row">
             <div class="col-12 col-md-5">
                 <label class="text-white" for="nName">ชื่อเล่น</label>
-                <input v-model="form.nickname" type="text" class="form-control" placeholder="ก็อปแก็ป" id="nName">
+                <input 
+                @blur="isTouched.nickname = true"
+                v-model="form.nickname"
+                type="text"
+                :class="['form-control', {'mb-3': isNickNameValid || !isTouched.nickname}]"
+                placeholder="ก็อปแก็ป"
+                id="nName">
+
+                <small 
+                v-if="!isNickNameValid && isTouched.nickname" 
+                class="text-warning mb-3 d-inline-block">กรุณากรอกชื่อเล่นด้วยครับ</small>
             </div>
             <div class="col-12 col-md-7">
                 <label class="text-white" for="phoneNum">เบอร์มือถือ</label>
-                <input v-model="form.phone" type="text" class="form-control" placeholder="0619144XXX" id="phoneNum">
+                <input 
+                @blur="isTouched.phone = true"
+                v-model="form.phone" 
+                type="text" 
+                :class="['form-control', {'mb-3': isPhoneValid || !isTouched.phone}]" 
+                placeholder="0619144XXX" 
+                id="phoneNum">
+
+                <small 
+                v-if="!isPhoneValid && isTouched.phone" 
+                class="text-warning mb-3 d-inline-block">กรุณากรอกเบอร์โทรศัพท์มือถือด้วยครับ</small>
             </div>
           </div>
           <div class="form-row">
             <div class="col">
                 <label class="text-white" for="FacebookURL">Facebook URL</label>
-                <input v-model="form.facebook" type="text" class="form-control"
-                  placeholder="https://www.facebook.com/snapandgap" id="FacebookURL">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">https://www.facebook.com/</span>
+                  </div>
+                  <input v-model="form.facebook" type="text" class="form-control" id="FacebookURL" aria-describedby="basic-addon3">
+                </div>
+                <!-- <input v-model="form.facebook" type="text" class="form-control"
+                  placeholder="https://www.facebook.com/snapandgap" id="FacebookURL"> -->
             </div>
           </div>
           <div class="form-row">
             <div class="col-12 col-md-6">
                 <label class="text-white" for="LineID">Line ID</label>
-                <input v-model="form.line" type="text" class="form-control" placeholder="snapandgap" id="LineID">
+                <input v-model="form.line" type="text" class="form-control mb-3" placeholder="snapandgap" id="LineID">
             </div>
           </div>
-          <div class="form-row">
-            <div class="col">
+          <div class="row">
+            <div class="col-12">
                 <label class="text-white" for="devices">อุปกรณ์ที่ใช้ถ่ายภาพ (เลือกได้มากกว่า 1 อย่าง)</label>
-                <div class="form-check-inline">
+                <!-- <div class="form-check-inline">
                   <input v-model="form.devices.dslr" class="form-check-input" type="checkbox" name="device" id="DSLR"
                     value="option1">
                   <label class="form-check-label" for="DSLR">
@@ -105,7 +141,29 @@
                   <input v-model="form.devices.other" class="form-check-input" type="checkbox" name="device" id="other"
                     value="option4">
                   <label class="form-check-label" for="other">อื่นๆ</label>
+                </div> -->
+            </div>
+            <div class="col-12">
+              <div class="row justify-content-center">
+                <div class="col-auto mb-3">
+                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
                 </div>
+                <div class="col-auto mb-3">
+                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
+                </div>
+                <div class="col-auto mb-3">
+                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
+                </div>
+                <div class="col-auto mb-3">
+                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
+                </div>
+                <div class="col-auto mb-3">
+                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
+                </div>
+                <div class="col-auto mb-3">
+                  <button class="btn btn-outline-light">EEEEEEEEEEEEEEEEEEE</button>
+                </div>
+              </div>
             </div>
           </div>
           <hr>
@@ -202,6 +260,24 @@
     computed: {
       isFirstNameValid () {
         if (this.form.firstname.length >= 2) {
+          return true;
+        }
+        return false;
+      },
+      isLastNameValid () {
+        if (this.form.lastname.length >= 2) {
+          return true;
+        }
+        return false;
+      },
+      isNickNameValid () {
+        if (this.form.nickname.length >= 1) {
+          return true;
+        }
+        return false;
+      },
+      isPhoneValid () {
+        if (this.form.phone.length == 10) {
           return true;
         }
         return false;
