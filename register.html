@@ -34,7 +34,7 @@
         <div id="form-app">
           <div class="form-row">
             <div class="col-12 col-md-6">
-                <label class="text-white" for="fName">ชื่อ</label>
+                <label class="text-white" for="fName">ชื่อ *</label>
 
                 <input 
                 @blur="isTouched.firstname = true"
@@ -50,7 +50,7 @@
 
             </div>
             <div class="col-12 col-md-6">
-                <label class="text-white" for="lName">นามสกุล</label>
+                <label class="text-white" for="lName">นามสกุล *</label>
                 <input
                 @blur="isTouched.lastname = true" 
                 v-model="form.lastname" type="text" 
@@ -66,7 +66,7 @@
           </div>
           <div class="form-row">
             <div class="col-12 col-md-5">
-                <label class="text-white" for="nName">ชื่อเล่น</label>
+                <label class="text-white" for="nName">ชื่อเล่น *</label>
                 <input 
                 @blur="isTouched.nickname = true"
                 v-model="form.nickname"
@@ -80,7 +80,7 @@
                 class="text-warning mb-3 d-inline-block">กรุณากรอกชื่อเล่นด้วยครับ</small>
             </div>
             <div class="col-12 col-md-7">
-                <label class="text-white" for="phoneNum">เบอร์มือถือ</label>
+                <label class="text-white" for="phoneNum">เบอร์มือถือ *</label>
                 <input 
                 @blur="isTouched.phone = true"
                 v-model="form.phone" 
@@ -169,7 +169,10 @@
             </div>
           </div>
           <div class="btn-row">
-            <button @click="saveForm" class="btn w-100 py-3 btn-outline-light my-2 my-sm-0" type="submit">ยืนยัน!</button>
+            <button :disabled="!isFormReady" @click="saveForm" class="btn w-100 py-3 btn-outline-light my-2 my-sm-0" type="submit">
+              <span v-if="isFormReady">ยืนยัน !</span>
+              <span v-else>กรอกข้อมูลในช่องที่จำเป็น (*) ให้ครบก่อนครับ 😢</span>
+            </button>
           </div>
 
         </div>
@@ -239,12 +242,30 @@
         this.form.devices[device] = !this.form.devices[device]
       },
       saveForm() {
+        if (
+          this.isFirstNameValid &&
+          this.isLastNameValid &&
+          this.isNickNameValid &&
+          this.isPhoneValid
+        ) {
           db.collection('applicants').add(this.form).then(function () {
             window.location.href = '/success.html';
           })
+        }
       }
     },
     computed: {
+      isFormReady () {
+        if (
+          this.isFirstNameValid &&
+          this.isLastNameValid &&
+          this.isNickNameValid &&
+          this.isPhoneValid
+        ) {
+          return true;
+        }
+        return false;
+      },
       isFirstNameValid () {
         if (this.form.firstname.length >= 2) {
           return true;
