@@ -34,40 +34,52 @@
         <div id="form-app">
           <div class="form-row">
             <div class="col-12 col-md-6">
-              <p><label for="fName">ชื่อ</label>
-                <input v-model="form.firstname" type="text" class="form-control" placeholder="สแนป" id="fName"></p>
+                <label class="text-white" for="fName">ชื่อ</label>
+
+                <input 
+                @blur="isTouched.firstname = true"
+                v-model="form.firstname" 
+                type="text" 
+                :class="['form-control', {'mb-3': isFirstNameValid || !isTouched.firstname}]" 
+                placeholder="สแนป" 
+                id="fName">
+
+                <small 
+                v-if="!isFirstNameValid && isTouched.firstname" 
+                class="text-warning mb-3 d-inline-block">กรุณากรอกชื่อด้วยครับ</small>
+
             </div>
             <div class="col-12 col-md-6">
-              <p><label for="lName">นามสกุล</label>
-                <input v-model="form.lastname" type="text" class="form-control" placeholder="แก็ป" id="lName"></p>
+                <label class="text-white" for="lName">นามสกุล</label>
+                <input v-model="form.lastname" type="text" class="form-control" placeholder="แก็ป" id="lName">
             </div>
           </div>
           <div class="form-row">
             <div class="col-12 col-md-5">
-              <p><label for="nName">ชื่อเล่น</label>
-                <input v-model="form.nickname" type="text" class="form-control" placeholder="ก็อปแก็ป" id="nName"></p>
+                <label class="text-white" for="nName">ชื่อเล่น</label>
+                <input v-model="form.nickname" type="text" class="form-control" placeholder="ก็อปแก็ป" id="nName">
             </div>
             <div class="col-12 col-md-7">
-              <p><label for="phoneNum">เบอร์มือถือ</label>
-                <input v-model="form.phone" type="text" class="form-control" placeholder="0619144XXX" id="phoneNum"></p>
+                <label class="text-white" for="phoneNum">เบอร์มือถือ</label>
+                <input v-model="form.phone" type="text" class="form-control" placeholder="0619144XXX" id="phoneNum">
             </div>
           </div>
           <div class="form-row">
             <div class="col">
-              <p><label for="FacebookURL">Facebook URL</label>
+                <label class="text-white" for="FacebookURL">Facebook URL</label>
                 <input v-model="form.facebook" type="text" class="form-control"
-                  placeholder="https://www.facebook.com/snapandgap" id="FacebookURL"></p>
+                  placeholder="https://www.facebook.com/snapandgap" id="FacebookURL">
             </div>
           </div>
           <div class="form-row">
             <div class="col-12 col-md-6">
-              <p><label for="LineID">Line ID</label>
-                <input v-model="form.line" type="text" class="form-control" placeholder="snapandgap" id="LineID"></p>
+                <label class="text-white" for="LineID">Line ID</label>
+                <input v-model="form.line" type="text" class="form-control" placeholder="snapandgap" id="LineID">
             </div>
           </div>
           <div class="form-row">
             <div class="col">
-              <p><label for="devices">อุปกรณ์ที่ใช้ถ่ายภาพ (เลือกได้มากกว่า 1 อย่าง)</label>
+                <label class="text-white" for="devices">อุปกรณ์ที่ใช้ถ่ายภาพ (เลือกได้มากกว่า 1 อย่าง)</label>
                 <div class="form-check-inline">
                   <input v-model="form.devices.dslr" class="form-check-input" type="checkbox" name="device" id="DSLR"
                     value="option1">
@@ -99,9 +111,9 @@
           <hr>
           <div class="form-row">
             <div class="col-12">
-              <p><label for="reason">ขอเหตุผลน่ารักๆว่าทำไมถึงมาร่วมกิจกรรม</label>
+                <label class="text-white" for="reason">ขอเหตุผลน่ารักๆว่าทำไมถึงมาร่วมกิจกรรม</label>
                 <textarea v-model="form.reason" class="form-control" placeholder="เพราะคนจัดงานหล่อมากๆ" id="reason"
-                  row="3"></textarea></p>
+                  row="3"></textarea>
             </div>
           </div>
           <div class="btn-row">
@@ -145,6 +157,14 @@
   var app = new Vue({
     el: '#form-app',
     data: {
+      isTouched: {
+        firstname: false,
+        lastname: false,
+        nickname: false,
+        phone: false,
+        facebook: false,
+        line: false,
+      },
       error: false,
       form: {
         firstname: '',
@@ -175,8 +195,16 @@
           })
         } else {
           this.error = true;
-          alert('กรอกข้อมูลให้ครบนะครับ ❤️')
+          alert('กรอกข้อมูลให้ครบนะครับ ❤️');
         }
+      }
+    },
+    computed: {
+      isFirstNameValid () {
+        if (this.form.firstname.length >= 2) {
+          return true;
+        }
+        return false;
       }
     }
   });
